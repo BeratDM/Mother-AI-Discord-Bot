@@ -91,7 +91,7 @@ async def on_message(message):
         fresponse = update_verydeepquotes(new_vdqtext, message.author.name, message.author.id, str(message.created_at))
         
         fresponse = fresponse.split("ß")
-        print(fresponse[1] + "------"+ fresponse[0])
+        print(fresponse[1] + "------ Index: "+ fresponse[0])
         response = '"' + new_vdqtext + '"  -' + message.author.name + ", " + str(message.created_at.year) + "\n\n" + fresponse[1]  + " Index: {0}".format(fresponse[0])
         
         await message.channel.send(response, allowed_mentions = discord.AllowedMentions(replied_user=False))
@@ -131,8 +131,7 @@ async def on_message(message):
         vdquotes = db["verydeepquotes"]
 
         
-      for element in vdquotes:
-        vdq = element
+      for vdq in vdquotes:
         vdqtext, vdqauthor_name, vdqdate = vdq[0], vdq[1], vdq[3]
         vdqdate = datetime.strptime(vdqdate, '%Y-%m-%d %H:%M:%S.%f')
         response = response +'"{0}"'.format(vdqtext) + "-{0}".format(vdqauthor_name) + ' {0}\n'.format(str(vdqdate.year))
@@ -142,6 +141,23 @@ async def on_message(message):
 
 
       
+  
+    if msgrest[1].startswith("responding."):
+      r_element = msgrest[1].split("responding.",1)[1]
+
+      if r_element.startswith("özlüsöz "):
+        value =r_element.split("özlüsöz ", 1)[1]
+        
+        if value.lower() == "true":
+          db["responding.verydeepquotes"] = True
+          await message.channel.send("Özlü Söz Activated.")
+        elif value.lower() == "false":
+          db["responding.verydeepquotes"] = False
+          await message.channel.send("Özlü Söz Deactivated.")
+          
+  
+
+  
   if any(word in message.content for word in weather_words):
     response = random.choice(weather_responses1) + " 25 C°. " +   random.choice(weather_responses2) + " " + random.choice(weather_responses3)
     await message.channel.send(response)

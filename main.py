@@ -5,6 +5,7 @@ import json
 import random
 from replit import db
 from datetime import datetime
+from keep_alive import keep_alive
 
 client = discord.Client()
 
@@ -164,5 +165,5 @@ async def on_message(message):
     return
 
 
-
+keep_alive()
 client.run(os.environ['TOKEN'])

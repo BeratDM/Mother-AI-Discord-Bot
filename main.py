@@ -134,7 +134,7 @@ async def on_message(message):
           vdq = vdquotes[randi]
           vdqtext, vdqauthor_name, vdqdate = vdq[0], vdq[1], vdq[3]
           vdqdate = datetime.strptime(vdqdate, '%Y-%m-%d %H:%M:%S.%f')
-          response = vdqtext + " -" + vdqauthor_name + ", " + str(vdqdate.year) + "  ||*Index: {0}*||".format(randi)
+          response = '"{0}"'.format(vdqtext) + " -" + vdqauthor_name + ", " + str(vdqdate.year) + "  ||*Index: {0}*||".format(randi)
           await message.channel.send(response, allowed_mentions = discord.AllowedMentions(
             users=False,         # Whether to ping individual user @mentions
             everyone=False,      # Whether to ping @everyone or @here mentions

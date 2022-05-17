@@ -38,15 +38,30 @@ def get_quote2():
   text, author = aquote["text"], aquote["author"]
   return(text + " -" + author)
 
-def update_verydeepquotes(nqtext, nqauthor_name, nqauthor_id, nqdate):
-  newquote = [nqtext, nqauthor_name, nqauthor_id, nqdate]#, creationdate]
+def update_verydeepquotes(nqtext, msg):
+
+  nqauthor_name = msg.author.name
+  nqauthor_id = msg.author.id
+  nqdate = str(msg.created_at)
+  
+  newquote = [nqtext, nqauthor_name, nqauthor_id, nqdate]
   if "verydeepquotes" in db.keys():
     vdquotes = db["verydeepquotes"]
     vdquotes.append(newquote)
     db["verydeepquotes"] = vdquotes
   else:
     db["verydeepquotes"] = [newquote]
-  return("{0}ßSuccessful.".format(len(db["verydeepquotes"])-1))
+  ####
+
+  
+  #fresponse = update_verydeepquotes(new_vdqtext, message.author.name, message.author.id, str(message.created_at))
+        
+  #fresponse = fresponse.split("ß")
+ # print(fresponse[1] + "------ Index: "+ fresponse[0])
+  response = '"' + nqtext + '"  -{0}'.format(nqauthor_name) + ", {0}".format(str(msg.created_at.year)) + "\n\n" + "Successful. Index: {0}".format(len(db["verydeepquotes"])-1)
+  print(response)
+  ####
+  return(response)
 
 def delete_verydeepquotes(index, messager):
   vdquotes = db["verydeepquotes"]
@@ -72,7 +87,7 @@ async def on_message(message):
     return
 
 
-    
+  
   if message.content.startswith("mother".casefold() + "."):
 
     msgrest = message.content.split("mother.".casefold(), 1)
@@ -87,15 +102,28 @@ async def on_message(message):
 
     if db["responding.verydeepquotes"]:
       if "yaz bunu".casefold() in message.content:
-        new_vdqtext = message.content.split('yaz bunu ',)[1]
+        msg_id = message
+        if message.reference is not None:
+          if message.reference.cached_message is None:
+              # Fetching the message
+              channel = client.get_channel(message.reference.channel_id)
+              msg_id = await channel.fetch_message(message.reference.message_id)
+              new_vdqtext = msg_id.content
+          else:
+              msg_id = message.reference.cached_message
+              new_vdqtext = msg_id.content
+        else: 
+          new_vdqtext = message.content.split('yaz bunu ',)[1]
+        #####
+        #fresponse = update_verydeepquotes(new_vdqtext, message.author.name, message.author.id, str(message.created_at))
         
-        fresponse = update_verydeepquotes(new_vdqtext, message.author.name, message.author.id, str(message.created_at))
+        fresponse = update_verydeepquotes(new_vdqtext, msg_id)
         
-        fresponse = fresponse.split("ß")
-        print(fresponse[1] + "------ Index: "+ fresponse[0])
-        response = '"' + new_vdqtext + '"  -' + message.author.name + ", " + str(message.created_at.year) + "\n\n" + fresponse[1]  + " Index: {0}".format(fresponse[0])
-        
-        await message.channel.send(response, allowed_mentions = discord.AllowedMentions(replied_user=False))
+        await message.channel.send(fresponse,  allowed_mentions = discord.AllowedMentions(
+            users=False,         # Whether to ping individual user @mentions
+            everyone=False,      # Whether to ping @everyone or @here mentions
+            roles=False,         # Whether to ping role @mentions
+            replied_user=False))
         return
   
       
@@ -135,7 +163,7 @@ async def on_message(message):
       for vdq in vdquotes:
         vdqtext, vdqauthor_name, vdqdate = vdq[0], vdq[1], vdq[3]
         vdqdate = datetime.strptime(vdqdate, '%Y-%m-%d %H:%M:%S.%f')
-        response = response +'"{0}"'.format(vdqtext) + "-{0}".format(vdqauthor_name) + ' {0}\n'.format(str(vdqdate.year))
+        response = response +'"{0}"'.format(vdqtext) + "-{0}".format(vdqauthor_name) + ' {0}'.format(str(vdqdate.year) + '\n\n')
       await message.channel.send(response)  
       
 

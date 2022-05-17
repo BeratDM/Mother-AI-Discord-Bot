@@ -88,7 +88,7 @@ async def on_message(message):
 
 
   
-  if message.content.startswith("mother".casefold() + "."):
+  if message.content.startswith("mother.".casefold()):
 
     msgrest = message.content.split("mother.".casefold(), 1)
     print(msgrest[1])
@@ -96,28 +96,47 @@ async def on_message(message):
     if "hello".casefold() in message.content:
       await message.channel.send("Hello!")
       
-    if any(word in message.content for word in ["wisdom", "quote"]):
+    if any(word in message.content for word in ["wisdom".casefold(), "quote".casefold()]):
       quote = get_quote2()
       await message.channel.send(quote)
 
     if db["responding.verydeepquotes"]:
-      if "yaz bunu".casefold() in message.content:
-        msg_id = message
-        if message.reference is not None:
+      
+      if "yaz bunu".casefold() in message.content or msgrest[1].startswith("addvdq "):
+        msg_obj = message
+        if msgrest[1].startswith("addvdq "):
+          
+          msglink = msgrest[1].split("addvdq ")[1]
+          #'https://discordapp.com/channels/guild_id/channel_id/message_id'
+          link = msglink.split("/")
+          print(link)
+          
+          server_id = int(link[4])
+          channel_id = int(link[5])
+          msg_id = int(link[6])
+          
+          try:
+            server = client.get_guild(server_id)
+            channel = server.get_channel(channel_id)
+            msg_obj = await channel.fetch_message(msg_id)
+            new_vdqtext = msg_obj.content
+          except AttributeError:
+            await message.channel.send("Bulunamadı.")
+            return
+          
+        elif message.reference is not None:
           if message.reference.cached_message is None:
               # Fetching the message
               channel = client.get_channel(message.reference.channel_id)
-              msg_id = await channel.fetch_message(message.reference.message_id)
-              new_vdqtext = msg_id.content
+              msg_obj = await channel.fetch_message(message.reference.message_id)
+              new_vdqtext = msg_obj.content
           else:
-              msg_id = message.reference.cached_message
-              new_vdqtext = msg_id.content
+              msg_obj = message.reference.cached_message
+              new_vdqtext = msg_obj.content
         else: 
           new_vdqtext = message.content.split('yaz bunu ',)[1]
-        #####
-        #fresponse = update_verydeepquotes(new_vdqtext, message.author.name, message.author.id, str(message.created_at))
         
-        fresponse = update_verydeepquotes(new_vdqtext, msg_id)
+        fresponse = update_verydeepquotes(new_vdqtext, msg_obj)
         
         await message.channel.send(fresponse,  allowed_mentions = discord.AllowedMentions(
             users=False,         # Whether to ping individual user @mentions

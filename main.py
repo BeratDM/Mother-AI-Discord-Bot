@@ -159,11 +159,13 @@ async def on_message(message):
       if "verydeepquotes" in db.keys():
         vdquotes = db["verydeepquotes"]
 
-        
+      index = 0  
       for vdq in vdquotes:
         vdqtext, vdqauthor_name, vdqdate = vdq[0], vdq[1], vdq[3]
         vdqdate = datetime.strptime(vdqdate, '%Y-%m-%d %H:%M:%S.%f')
-        response = response +'"{0}"'.format(vdqtext) + "-{0}".format(vdqauthor_name) + ' {0}'.format(str(vdqdate.year) + '\n\n')
+        response = response + " ||Index: {0}||".format(index) + '     "{0}"'.format(vdqtext) + "  - {0}, ".format(vdqauthor_name) + '{0}'.format(str(vdqdate.year) +  '\n\n')
+        index += 1
+        
       await message.channel.send(response)  
       
 

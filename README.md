@@ -15,10 +15,10 @@ A general purpose Discord bot which aims to feel like a human when interacting. 
   - Weather info from API *(work in progress)*
 
 list of some commands:<br/>
-(most commands are case insensitive)<br/>
-(vdq stands for "very deep quotes")
+*(most commands are case insensitive)*<br/>
+*(vdq stands for "very deep quotes")*
 - "Mother.newvdq" or "Mother. özlü söz" to add a quote
 - "Mother. sil 10" or "mother. delete 10" to delete quote at index 10
-- "mother.list.vdq" lists all custom quotes
+- "mother.list.vdq" to list all custom quotes
 - "Mother. özlü söz" or "mother. feed me with a deep quote" to get random vdq 
 - etc.

@@ -4,8 +4,8 @@ A general purpose Discord bot which aims to feel like a human when interacting. 
 
 - Allowing your past mistakes to follow you into the future by
   - Saving messages you write
-  - Saving existing any messages from reply
-  - Saving existing any messages from message link (if reaches it)
+  - Saving any existing messages from reply
+  - Saving any existing messages from message link (if reaches it)
   - Sending messages from saved messages db
   - Deleting messages from saved messages db if you are the quoted user
 - A possibility to inspire you by

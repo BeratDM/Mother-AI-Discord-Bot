@@ -29,7 +29,7 @@ def get_quote2():
   json_data = json.loads(response.text)
   aquote = random.choice(list(json_data))
   text, author = aquote["text"], aquote["author"]
-  return(text + " -" + author)
+  return(text + " -" + author + "\n")
 
 def update_verydeepquotes(nqtext, msg):
 
@@ -78,18 +78,14 @@ async def on_message(message):
   if message.content.casefold().startswith("mother."):
 
     msgrest = message.content.split(".", 1)[1]
-    print(msgrest)
+    print(message.author.name + ": " + msgrest)
     
     if any(word in message.content.casefold() for word in ["hello", "hi", "hey", "wasup"]):
       await message.channel.send("Hello!")
-      
-    if any(word in message.content.casefold() for word in ["wisdom", "quote"]):
-      quote = get_quote2()
-      await message.channel.send(quote)
 
     if db["responding.verydeepquotes"]:
       
-      if "yaz bunu" in message.content.casefold() or msgrest.startswith("newvdq "):
+      if "yaz bunu" in message.content.casefold() or msgrest.startswith(("newvdq ", " newvdq ")):
         msg_obj = message
         msglink = "https://discordapp.com/channels/0/0/0"
         if msgrest.startswith("newvdq "):
@@ -139,8 +135,7 @@ async def on_message(message):
             replied_user=False))
         return
   
-      
-      if "özlü söz" in message.content.casefold():
+      if any(word in message.content.casefold() for word in ("özlü söz", "vdq", "very deep", "deep quote", "deep wisdom")):
         if "verydeepquotes" in db.keys():
           vdquotes = db["verydeepquotes"]
           randi = random.choice(range(len(vdquotes)))
@@ -158,10 +153,14 @@ async def on_message(message):
         
       
       
-      if msgrest.casefold().startswith(("sil", " sil")):
+      if msgrest.casefold().startswith(("sil", " sil", "del", " del", "delete", " delete")):
         vdquotes = []
         if "verydeepquotes" in db.keys():
-          index = int(message.content.casefold().split("sil", 1)[1])
+          index = message.content.casefold().split()
+          try:
+            index = int(index[1])
+          except:
+            index = int(index[len(index)-1])
           fresponse = delete_verydeepquotes(index, message.author)
           print(fresponse)
           await message.channel.send(fresponse)
@@ -169,7 +168,7 @@ async def on_message(message):
 
 
     
-    if msgrest.startswith("list.özlüsöz"):
+    if msgrest.startswith(("list.özlüsöz", "list.vdq")):
       vdquotes = ["","",0,""]
       response = ""
       if "verydeepquotes" in db.keys():
@@ -185,25 +184,25 @@ async def on_message(message):
       await message.channel.send(response)  
       
 
-
-
-      
   
     if msgrest.startswith("responding."):
       r_element = msgrest.split("responding.",1)[1]
 
-      if r_element.startswith("özlüsöz "):
-        value =r_element.split("özlüsöz ", 1)[1]
+      if r_element.startswith(("özlüsöz ", "vdq ")):
+        value =r_element.split()[1] #("özlüsöz ", "vdq ")
         
         if value.lower() == "true":
           db["responding.verydeepquotes"] = True
-          await message.channel.send("Özlü Söz Activated.")
+          await message.channel.send("Activated. Very Deep Quotes")
         elif value.lower() == "false":
           db["responding.verydeepquotes"] = False
-          await message.channel.send("Özlü Söz Deactivated.")
+          await message.channel.send("Deactivated. Very Deep Quotes")
           
   
-
+    if any(word in message.content.casefold() for word in ["wisdom", "quote"]):
+      quote = get_quote2()
+      await message.channel.send(quote)
+      return
   
   if any(word in message.content for word in words.weather_words):
     response = random.choice(words.weather_responses1) + " 25 C°. " +   random.choice(words.weather_responses2) + " " + random.choice(words.weather_responses3)

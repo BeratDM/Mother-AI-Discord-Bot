@@ -3,6 +3,7 @@ import discord
 import requests
 import json
 import random
+import re
 from replit import db
 from datetime import datetime
 from keep_alive import keep_alive
@@ -88,39 +89,46 @@ async def on_message(message):
 
     if db["responding.verydeepquotes"]:
       
-      if "yaz bunu" in message.content.casefold() or msgrest.startswith("addvdq "):
+      if "yaz bunu" in message.content.casefold() or msgrest.startswith("newvdq "):
         msg_obj = message
-        if msgrest.startswith("addvdq "):
-          
-          msglink = msgrest.split("addvdq ")[1]
-          #'https://discordapp.com/channels/guild_id/channel_id/message_id'
-          link = msglink.split("/")
-          print(link)
-          
-          server_id = int(link[4])
-          channel_id = int(link[5])
-          msg_id = int(link[6])
-          
+        msglink = "https://discordapp.com/channels/0/0/0"
+        if msgrest.startswith("newvdq "):
           try:
-            server = client.get_guild(server_id)
-            channel = server.get_channel(channel_id)
-            msg_obj = await channel.fetch_message(msg_id)
-            new_vdqtext = msg_obj.content
-          except AttributeError:
-            await message.channel.send("Bulunamadı.")
-            return
+            msglink = msgrest.split("newvdq ")[1]
+          except:
+            pass
+        elif msgrest.casefold().startswith("yaz bunu "):
+          try:
+            msglink = re.split("yaz bunu ", msgrest, flags=re.IGNORECASE)[1]
+          except:
+            pass
+          #'https://discordapp.com/channels/guild_id/channel_id/message_id'
+        link = msglink.split("/")
           
-        elif message.reference is not None:
-          if message.reference.cached_message is None:
-              # Fetching the message
-              channel = client.get_channel(message.reference.channel_id)
-              msg_obj = await channel.fetch_message(message.reference.message_id)
-              new_vdqtext = msg_obj.content
-          else:
-              msg_obj = message.reference.cached_message
-              new_vdqtext = msg_obj.content
-        else: 
-          new_vdqtext = message.content.split('yaz bunu '.casefold(),)[1]
+        server_id = int(link[4])
+        channel_id = int(link[5])
+        msg_id = int(link[6])
+        
+        try:
+          server = client.get_guild(server_id)
+          channel = server.get_channel(channel_id)
+          msg_obj = await channel.fetch_message(msg_id)
+          new_vdqtext = msg_obj.content
+          
+        except AttributeError:
+          #link not found
+          
+          if message.reference is not None:
+            if message.reference.cached_message is None:
+                # Fetching the message
+                channel = client.get_channel(message.reference.channel_id)
+                msg_obj = await channel.fetch_message(message.reference.message_id)
+                new_vdqtext = msg_obj.content
+            else:
+                msg_obj = message.reference.cached_message
+                new_vdqtext = msg_obj.content
+          else: 
+            new_vdqtext = re.split('yaz bunu ', message.content, flags=re.IGNORECASE)[1]
         
         fresponse = update_verydeepquotes(new_vdqtext, msg_obj)
         

@@ -6,3 +6,6 @@ weather_responses2 = ["I will continue my efforts at keeping you alive.", "Consi
 
 weather_responses3 = ["Have a nice day.", "Stay happy.", "Good luck.", "Session Over.", "Terminating Session..", "Ending.."]
 
+greeting_response1 = ["Hello!", "Hey", "Hi"]
+
+glad_response1 = ["Feedback noted.", "I'm here to serve", "Thank you", "I appreciate your appreciation"]

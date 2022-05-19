@@ -81,7 +81,27 @@ async def on_message(message):
     print(message.author.name + ": " + msgrest)
     
     if any(word in message.content.casefold() for word in ["hello", "hi", "hey", "wasup"]):
-      await message.channel.send("Hello!")
+      await message.channel.send(random.choice(words.greeting_response1))
+    
+    if msgrest.startswith(("list.özlüsöz", "list.vdq")):
+      vdquotes = ["","",0,""]
+      response = ""
+      if "verydeepquotes" in db.keys():
+        vdquotes = db["verydeepquotes"]
+
+      index = 0  
+      for vdq in vdquotes:
+        vdqtext, vdqauthor_name, vdqdate = vdq[0], vdq[1], vdq[3]
+        vdqdate = datetime.strptime(vdqdate, '%Y-%m-%d %H:%M:%S.%f')
+        response = response + " ||Index: {0}||".format(index) + '     "{0}"'.format(vdqtext) + "  - {0}, ".format(vdqauthor_name) + '{0}'.format(str(vdqdate.year) +  '\n\n')
+        index += 1
+        
+      await message.channel.send(response, allowed_mentions = discord.AllowedMentions(
+            users=False,         # Whether to ping individual user @mentions
+            everyone=False,      # Whether to ping @everyone or @here mentions
+            roles=False,         # Whether to ping role @mentions
+            replied_user=False))  
+      return
 
     if db["responding.verydeepquotes"]:
       
@@ -143,6 +163,7 @@ async def on_message(message):
           vdqtext, vdqauthor_name, vdqdate = vdq[0], vdq[1], vdq[3]
           vdqdate = datetime.strptime(vdqdate, '%Y-%m-%d %H:%M:%S.%f')
           response = '"{0}"'.format(vdqtext) + " -" + vdqauthor_name + ", " + str(vdqdate.year) + "  ||*Index: {0}*||".format(randi)
+          print(response)
           await message.channel.send(response, allowed_mentions = discord.AllowedMentions(
             users=False,         # Whether to ping individual user @mentions
             everyone=False,      # Whether to ping @everyone or @here mentions
@@ -163,26 +184,15 @@ async def on_message(message):
             index = int(index[len(index)-1])
           fresponse = delete_verydeepquotes(index, message.author)
           print(fresponse)
-          await message.channel.send(fresponse)
+          await message.channel.send(fresponse, allowed_mentions = discord.AllowedMentions(
+            users=False,         # Whether to ping individual user @mentions
+            everyone=False,      # Whether to ping @everyone or @here mentions
+            roles=False,         # Whether to ping role @mentions
+            replied_user=False))
         return
 
 
     
-    if msgrest.startswith(("list.özlüsöz", "list.vdq")):
-      vdquotes = ["","",0,""]
-      response = ""
-      if "verydeepquotes" in db.keys():
-        vdquotes = db["verydeepquotes"]
-
-      index = 0  
-      for vdq in vdquotes:
-        vdqtext, vdqauthor_name, vdqdate = vdq[0], vdq[1], vdq[3]
-        vdqdate = datetime.strptime(vdqdate, '%Y-%m-%d %H:%M:%S.%f')
-        response = response + " ||Index: {0}||".format(index) + '     "{0}"'.format(vdqtext) + "  - {0}, ".format(vdqauthor_name) + '{0}'.format(str(vdqdate.year) +  '\n\n')
-        index += 1
-        
-      await message.channel.send(response)  
-      
 
   
     if msgrest.startswith("responding."):
@@ -197,18 +207,25 @@ async def on_message(message):
         elif value.lower() == "false":
           db["responding.verydeepquotes"] = False
           await message.channel.send("Deactivated. Very Deep Quotes")
+      
+      return
           
   
     if any(word in message.content.casefold() for word in ["wisdom", "quote"]):
       quote = get_quote2()
       await message.channel.send(quote)
       return
-  
+    
+    if any(word in message.content.casefold() for word in ("Thanks", "thank you", "appreciated", "thx", "thank")):
+      response = random.choice(words.glad_response1)
+      await message.channel.send(response)
+      
   if any(word in message.content for word in words.weather_words):
     response = random.choice(words.weather_responses1) + " 25 C°. " +   random.choice(words.weather_responses2) + " " + random.choice(words.weather_responses3)
     await message.channel.send(response)
     return
 
-
+    
+    
 keep_alive()
 client.run(os.environ['TOKEN'])

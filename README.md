@@ -14,7 +14,7 @@ A general purpose Discord bot which aims to feel like a human when interacting. 
   - Randomly formed response 
   - Weather info from API *(work in progress)*
 
-list of some commands:<br/>
+### list of some commands:<br/>
 *(most commands are case insensitive)*<br/>
 *(vdq stands for "very deep quotes")*
 - "Mother.newvdq" or "Mother. özlü söz" to add a quote

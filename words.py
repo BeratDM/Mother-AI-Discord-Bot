@@ -8,4 +8,4 @@ weather_responses3 = ["Have a nice day.", "Stay happy.", "Good luck.", "Session 
 
 greeting_response1 = ["Hello!", "Hey", "Hi"]
 
-glad_response1 = ["Feedback noted.", "Here to serve", "Thank you", "Your appreciation is appreciated"]
+glad_response1 = ["Feedback noted.", "Here to serve", "Thank you", "Your appreciation is appreciated", "Always"]

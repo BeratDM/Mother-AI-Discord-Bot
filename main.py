@@ -155,7 +155,7 @@ async def on_message(message):
             replied_user=False))
         return
   
-      if any(word in message.content.casefold() for word in ("özlü söz", "vdq", "very deep", "deep quote", "deep wisdom")):
+      if any(word in message.content.casefold() for word in ("özlü söz", "vdq", "very deep", "deep quote", "deep wisdom", "laf")):
         if "verydeepquotes" in db.keys():
           vdquotes = db["verydeepquotes"]
           randi = random.choice(range(len(vdquotes)))

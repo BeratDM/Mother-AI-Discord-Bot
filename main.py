@@ -1,3 +1,4 @@
+
 import os
 import discord
 import requests
@@ -113,7 +114,7 @@ async def on_message(message):
             msglink = msgrest.split("newvdq ")[1]
           except:
             pass
-        elif msgrest.casefold().startswith("yaz bunu "):
+        elif msgrest.casefold().startswith("yaz bunu ", " yaz bunu"):
           try:
             msglink = re.split("yaz bunu ", msgrest, flags=re.IGNORECASE)[1]
           except:

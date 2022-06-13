@@ -14,6 +14,25 @@ client = discord.Client()
 
 developer_id = 275675302494076928
 
+#fix the list lenght for old inputs
+if "verydeepquotes" in db.keys():
+  vdquotes = db["verydeepquotes"]
+  index = 0  
+  for vdq in vdquotes:
+    if len(vdq) < 5:
+      while(len(vdq) < 5):
+        vdq.append(None)
+    if vdq[0] == None:
+      vdq[0] = ""
+    if vdq[1] == None:
+      vdq[1] = ""
+    if vdq[2] == None:
+      vdq[2] = 0
+    if vdq[3] == None:
+      vdq[3] = ""
+    if vdq[4] == None:
+      vdq[4] = ""
+        
 
 if "responding.verydeepquotes" not in db.keys():
   db["responding.verydeepquotes"] = True
@@ -37,28 +56,40 @@ def update_verydeepquotes(nqtext, msg):
   nqauthor_name = msg.author.name
   nqauthor_id = msg.author.id
   nqdate = str(msg.created_at)
+  nqattachmenturl = ""
+  if len(msg.attachments) > 0:
+    nqattachmenturl = msg.attachments[0].url
   
-  newquote = [nqtext, nqauthor_name, nqauthor_id, nqdate]
+  newquote = [nqtext, nqauthor_name, nqauthor_id, nqdate, nqattachmenturl]
   if "verydeepquotes" in db.keys():
     vdquotes = db["verydeepquotes"]
     vdquotes.append(newquote)
     db["verydeepquotes"] = vdquotes
   else:
     db["verydeepquotes"] = [newquote]
+
+
+  if nqtext.startswith("http"):
+    response = nqtext + '  \n-{0}'.format(nqauthor_name) + ", {0}".format(str(msg.created_at.year)) + "\n\n" + "Successful. Index: {0}".format(len(db["verydeepquotes"])-1)
+
+  else:
+    response = '"' + nqtext + '"  -{0}'.format(nqauthor_name) + ", {0}".format(str(msg.created_at.year)) + "\n\n" + "Successful. Index: {0}".format(len(db["verydeepquotes"])-1)
+
   
-  response = '"' + nqtext + '"  -{0}'.format(nqauthor_name) + ", {0}".format(str(msg.created_at.year)) + "\n\n" + "Successful. Index: {0}".format(len(db["verydeepquotes"])-1)
-  print(response)
+  
+  print(response + nqattachmenturl)
   ####
-  return(response)
+  return(response, nqattachmenturl)
 
 def delete_verydeepquotes(index, messager):
   vdquotes = db["verydeepquotes"]
   if len(vdquotes) > index:
     if vdquotes[index][2] == messager.id or messager.id == developer_id:
       quote = vdquotes[index][0]
+      quote_attachment = vdquotes[index][4]
       del vdquotes[index]
       db["verydeepquotes"] = vdquotes
-      return("'{0}' successfully deleted".format(quote))
+      return("'{0}' '{1}' successfully deleted".format(quote, quote_attachment))
     else:
       return("failed to authorize")
   else:
@@ -69,13 +100,16 @@ def delete_verydeepquotes(index, messager):
 async def on_ready():
   print("We have logged in as {0.user}".format(client))
 
+####################
+  #On Message#
+####################
+
 @client.event
 async def on_message(message):
   if message.author == client.user:
     return
 
 
-  
   if message.content.casefold().startswith("mother."):
 
     msgrest = message.content.split(".", 1)[1]
@@ -85,16 +119,16 @@ async def on_message(message):
       await message.channel.send(random.choice(words.greeting_response1))
     
     if msgrest.startswith(("list.özlüsöz", "list.vdq")):
-      vdquotes = ["","",0,""]
+      vdquotes = ["","",0,"",""]
       response = ""
       if "verydeepquotes" in db.keys():
         vdquotes = db["verydeepquotes"]
 
       index = 0  
       for vdq in vdquotes:
-        vdqtext, vdqauthor_name, vdqdate = vdq[0], vdq[1], vdq[3]
+        vdqtext, vdqauthor_name, vdqdate, vdqattachment = vdq[0], vdq[1], vdq[3], vdq[4]
         vdqdate = datetime.strptime(vdqdate, '%Y-%m-%d %H:%M:%S.%f')
-        response = response + " ||Index: {0}||".format(index) + '     "{0}"'.format(vdqtext) + "  - {0}, ".format(vdqauthor_name) + '{0}'.format(str(vdqdate.year) +  '\n\n')
+        response = response + " ||Index: {0}||".format(index) + '     "{0}"'.format(vdqtext) + " {1}  - {0}, ".format(vdqauthor_name, vdqattachment) + '{0}'.format(str(vdqdate.year) +  '\n\n')
         index += 1
         
       await message.channel.send(response, allowed_mentions = discord.AllowedMentions(
@@ -114,25 +148,27 @@ async def on_message(message):
             msglink = msgrest.split("newvdq ")[1]
           except:
             pass
-        elif msgrest.casefold().startswith("yaz bunu ", " yaz bunu"):
+        elif msgrest.casefold().startswith(("yaz bunu ", " yaz bunu")):
           try:
             msglink = re.split("yaz bunu ", msgrest, flags=re.IGNORECASE)[1]
           except:
             pass
           #'https://discordapp.com/channels/guild_id/channel_id/message_id'
         link = msglink.split("/")
-          
-        server_id = int(link[4])
-        channel_id = int(link[5])
-        msg_id = int(link[6])
+
         
-        try:
+        try:  
+          
+          server_id = int(link[4])
+          channel_id = int(link[5])
+          msg_id = int(link[6])
+        
           server = client.get_guild(server_id)
           channel = server.get_channel(channel_id)
           msg_obj = await channel.fetch_message(msg_id)
           new_vdqtext = msg_obj.content
           
-        except AttributeError:
+        except: # AttributeError:
           #link not found
           
           if message.reference is not None:
@@ -147,13 +183,22 @@ async def on_message(message):
           else: 
             new_vdqtext = re.split('yaz bunu ', message.content, flags=re.IGNORECASE)[1]
         
-        fresponse = update_verydeepquotes(new_vdqtext, msg_obj)
+        fresponse, fresponse_attachmenturl = update_verydeepquotes(new_vdqtext, msg_obj)
+
+        if fresponse_attachmenturl != "":
+         await message.channel.send(fresponse_attachmenturl, allowed_mentions = discord.AllowedMentions(
+           users=False,         # Whether to ping individual user @mentions
+          everyone=False,      # Whether to ping @everyone or @here mentions
+          roles=False,         # Whether to ping role @mentions
+          replied_user=False))
         
         await message.channel.send(fresponse,  allowed_mentions = discord.AllowedMentions(
             users=False,         # Whether to ping individual user @mentions
             everyone=False,      # Whether to ping @everyone or @here mentions
             roles=False,         # Whether to ping role @mentions
             replied_user=False))
+        
+        
         return
   
       if any(word in message.content.casefold() for word in ("özlü söz", "vdq", "very deep", "deep quote", "deep wisdom", "laf")):
@@ -161,10 +206,18 @@ async def on_message(message):
           vdquotes = db["verydeepquotes"]
           randi = random.choice(range(len(vdquotes)))
           vdq = vdquotes[randi]
-          vdqtext, vdqauthor_name, vdqdate = vdq[0], vdq[1], vdq[3]
+          vdqtext, vdqauthor_name, vdqdate, vdqattachment = vdq[0], vdq[1], vdq[3], vdq[4]
           vdqdate = datetime.strptime(vdqdate, '%Y-%m-%d %H:%M:%S.%f')
           response = '"{0}"'.format(vdqtext) + " -" + vdqauthor_name + ", " + str(vdqdate.year) + "  ||*Index: {0}*||".format(randi)
           print(response)
+
+          if vdqattachment != "":
+            await message.channel.send(vdqattachment, allowed_mentions = discord.AllowedMentions(
+            users=False,         # Whether to ping individual user @mentions
+            everyone=False,      # Whether to ping @everyone or @here mentions
+            roles=False,         # Whether to ping role @mentions
+            replied_user=False))
+          
           await message.channel.send(response, allowed_mentions = discord.AllowedMentions(
             users=False,         # Whether to ping individual user @mentions
             everyone=False,      # Whether to ping @everyone or @here mentions

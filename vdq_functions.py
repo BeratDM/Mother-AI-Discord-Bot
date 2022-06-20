@@ -71,7 +71,7 @@ def delete_verydeepquotes(index, messager):
     return("invalid index")
 
 #send a random message from past which has a high probability of being a meme attachment link
-async def forbidden_function(msginput):
+async def forbidden_function(msginput, client):
   print("\n\nStarting Forbidden Function")
   print("Requested by: {0}".format(msginput.author.name))
   start_date = await msginput.channel.history(limit = 5, oldest_first = 1).flatten()
@@ -89,11 +89,12 @@ async def forbidden_function(msginput):
     print("starting the search for a forbidden message. Around: " + str(randd))
     all_messages = await msginput.channel.history(limit=100, around = randd ).flatten()
     for message in all_messages:
-      if message.content.startswith("https://cdn.discordapp.com/attachments/"):
-        selected_messages.append(message)
-      elif len(message.attachments) > 0:
-        message.content += " " + message.attachments[0].url
-        selected_messages.append(message)
+      if message.author != client.user:
+        if message.content.startswith("https://cdn.discordapp.com/attachments/"):
+          selected_messages.append(message)
+        elif len(message.attachments) > 0:
+          message.content += " " + message.attachments[0].url
+          selected_messages.append(message)
     try_count += 1
     print("updated try count to " + str(try_count))
       

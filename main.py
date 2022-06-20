@@ -138,10 +138,21 @@ async def on_message(message):
         
         return
   
-      if any(word in message.content.casefold() for word in ("özlü söz", "vdq", "very deep", "deep quote", "deep wisdom", "laf")):
+      if any(word in message.content.casefold() for word in ("özlü söz", "vdq", "very deep", "deep quote", "deep wisdom", "laf", "özlüsöz")):
         if "verydeepquotes" in db.keys():
           vdquotes = db["verydeepquotes"]
           randi = random.choice(range(len(vdquotes)))
+          for wrd in msgrest.split():
+            if wrd.isdigit():
+              randi = int(wrd)
+          if randi > len(vdquotes) - 1:
+            response = "I could not find the index you wanted."
+            await message.channel.send(response, allowed_mentions = discord.AllowedMentions(
+            users=False,         # Whether to ping individual user @mentions
+            everyone=False,      # Whether to ping @everyone or @here mentions
+            roles=False,         # Whether to ping role @mentions
+            replied_user=False))
+            return 
           vdq = vdquotes[randi]
           vdqtext, vdqauthor_name, vdqdate, vdqattachment = vdq[0], vdq[1], vdq[3], vdq[4]
           vdqdate = datetime.strptime(vdqdate, '%Y-%m-%d %H:%M:%S.%f')

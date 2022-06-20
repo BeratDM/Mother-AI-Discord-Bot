@@ -54,6 +54,9 @@ async def on_message(message):
     
     if any(word in message.content.casefold() for word in ["hello", "hi", "hey", "wasup"]):
       await message.channel.send(random.choice(words.greeting_response1))
+
+    if msgrest.startswith("forbidden"):
+      await vdq_f.forbidden_function(message)
     
     if msgrest.startswith(("list.özlüsöz", "list.vdq")):
       vdquotes = ["","",0,"",""]

@@ -1,4 +1,9 @@
 from replit import db
+import discord
+import random 
+from random import randrange
+from datetime import timedelta
+
 import special
 
 def init_verydeepquotes():
@@ -64,3 +69,64 @@ def delete_verydeepquotes(index, messager):
       return("failed to authorize")
   else:
     return("invalid index")
+
+#send a random message from past which has a high probability of being a meme attachment link
+async def forbidden_function(msginput):
+  print("\n\nStarting Forbidden Function")
+  print("Requested by: {0}".format(msginput.author.name))
+  start_date = await msginput.channel.history(limit = 5, oldest_first = 1).flatten()
+  start_date = start_date[0].created_at
+  end_date = await msginput.channel.history(limit = 5, oldest_first = 0).flatten()
+  end_date = end_date[0].created_at
+  selected_messages = []
+  try_count = 0
+  print(len(selected_messages))
+
+  
+  while (len(selected_messages) < 1 and try_count < 15):
+    randd = random_date(start_date, end_date)
+    print(randd)
+    print("starting the search for a forbidden message. Around: " + str(randd))
+    all_messages = await msginput.channel.history(limit=100, around = randd ).flatten()
+    for message in all_messages:
+      if message.content.startswith("https://cdn.discordapp.com/attachments/"):
+        selected_messages.append(message)
+      elif len(message.attachments) > 0:
+        message.content += " " + message.attachments[0].url
+        selected_messages.append(message)
+    try_count += 1
+    print("updated try count to " + str(try_count))
+      
+    
+  
+  if len(selected_messages) > 0:
+    print("found {0} forbidden message".format(len(selected_messages)))
+    randi = random.choice(range(len(selected_messages)))
+    print("selected index: {0}".format(randi))
+    chosen_message = selected_messages[randi]
+    response = chosen_message.content
+    await chosen_message.reply(response, mention_author=False, allowed_mentions = discord.AllowedMentions(
+            users=False,         # Whether to ping individual user @mentions
+            everyone=False,      # Whether to ping @everyone or @here mentions
+            roles=False,         # Whether to ping role @mentions
+            replied_user=False))
+    
+  else:
+    response = "Couldn't find a forbidden message"
+
+    await msginput.channel.send(response, allowed_mentions = discord.AllowedMentions(
+            users=False,         # Whether to ping individual user @mentions
+            everyone=False,      # Whether to ping @everyone or @here mentions
+            roles=False,         # Whether to ping role @mentions
+            replied_user=False))
+
+
+def random_date(start, end):
+    """
+    This function will return a random datetime between two datetime 
+    objects.
+    """
+    delta = end - start
+    int_delta = (delta.days * 24 * 60 * 60) + delta.seconds
+    random_second = randrange(int_delta)
+    return start + timedelta(seconds=random_second)

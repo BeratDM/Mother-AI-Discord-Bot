@@ -6,9 +6,12 @@ import random
 import re
 from replit import db
 from datetime import datetime
-from keep_alive import keep_alive
+import keep_alive as ka
 import words, special
 import vdq_functions as vdq_f
+import time
+import asyncio
+import threading
 
 client = discord.Client()
 
@@ -36,6 +39,12 @@ def get_quote2():
 @client.event
 async def on_ready():
   print("We have logged in as {0.user}".format(client))
+  ka.d_client = client
+  #asyncio.run(ka.keep_discord_connection())
+  asyncio.create_task(ka.keep_discord_connection())
+  #t = threading.Thread(target=ka.keep_discord_connection, args=())
+  #t.start()
+  #await ka.keep_discord_connection(client)
 
 ####################
   #On Message#
@@ -49,6 +58,8 @@ async def on_message(message):
 
   if message.content.casefold().startswith("mother."):
 
+    print(message.channel)
+    
     msgrest = message.content.split(".", 1)[1]
     print(message.author.name + ": " + msgrest)
     
@@ -230,7 +241,9 @@ async def on_message(message):
     await message.channel.send(response)
     return
 
+
+  
     
-    
-keep_alive()
+
+ka.keep_alive()
 client.run(os.environ['TOKEN'])

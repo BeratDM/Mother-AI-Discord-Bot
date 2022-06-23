@@ -44,8 +44,7 @@ async def keep_discord_connection():
       current_time = now.strftime("%D, %H:%M:%S")
       print("Current Time =", current_time)
       print("I CAN'T FETCH MYSELF ;(")
-      await channel.send("Self Destruct Initiated", current_time)
-      
+            
       system("python restarter_2.py")
       with open('restart.sh', 'rb') as file:
         script = file.read()

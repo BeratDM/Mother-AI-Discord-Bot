@@ -90,9 +90,10 @@ async def forbidden_function(msginput, client):
     all_messages = await msginput.channel.history(limit=100, around = randd ).flatten()
     for message in all_messages:
       if message.author != client.user:
-        if message.content.startswith("https://cdn.discordapp.com/attachments/"):
+        if message.content.startswith("https://cdn.discordapp.com/attachments/") and db["forbidden.settings"][0]:
+          
           selected_messages.append(message)
-        elif len(message.attachments) > 0:
+        elif len(message.attachments) > 0 and db["forbidden.settings"][1]:
           message.content += " " + message.attachments[0].url
           selected_messages.append(message)
     try_count += 1

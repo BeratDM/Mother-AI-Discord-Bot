@@ -20,6 +20,9 @@ vdq_f.init_verydeepquotes()
 if "responding.verydeepquotes" not in db.keys():
   db["responding.verydeepquotes"] = True
 
+if "forbidden.settings" not in db.keys():
+  db["forbidden.settings"] = [True, True]
+
 def get_quote1():
   response = requests.get("https://zenquotes.io/api/random")
   json_data = json.loads(response.text)
@@ -67,7 +70,27 @@ async def on_message(message):
       await message.channel.send(random.choice(words.greeting_response1))
 
     if msgrest.startswith("forbidden"):
-      await vdq_f.forbidden_function(message, client)
+      msgrest_1 = msgrest.split("forbidden", 1)[1]
+      if msgrest_1.startswith(".settings"):
+        msgrest_1 = msgrest_1.split(".settings", 1)[1]
+        if msgrest_1.startswith(".links"):
+          msgrest_1 = msgrest_1.split()[1]
+          if msgrest_1 == "0":
+            db["forbidden.settings"][0] = True
+            await message.channel.send("forbidden links enabled.")
+          elif msgrest_1 == "1":
+            db["forbidden.settings"][0] = False
+            await message.channel.send("forbidden links disabled.")
+        if msgrest_1.startswith(".attachments"):
+          msgrest_1 = msgrest_1.split()[1]
+          if msgrest_1 == "0":
+            db["forbidden.settings"][1] = True
+            await message.channel.send("forbidden attachments enabled.")
+          elif msgrest_1 == "1":
+            db["forbidden.settings"][1] = False
+            await message.channel.send("forbidden attachments disabled.")
+      else:
+        await vdq_f.forbidden_function(message, client)
     
     if msgrest.startswith(("list.özlüsöz", "list.vdq")):
       vdquotes = ["","",0,"",""]
@@ -223,6 +246,8 @@ async def on_message(message):
         elif value.lower() == "false":
           db["responding.verydeepquotes"] = False
           await message.channel.send("Deactivated. Very Deep Quotes")
+      
+      
       
       return
           

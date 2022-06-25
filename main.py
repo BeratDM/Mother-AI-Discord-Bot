@@ -61,7 +61,7 @@ async def on_message(message):
 
   if message.content.casefold().startswith("mother."):
 
-    print(message.channel)
+    print(str(message.guild) + " -- " + str(message.channel))
     
     msgrest = message.content.split(".", 1)[1]
     print(message.author.name + ": " + msgrest)
@@ -72,9 +72,12 @@ async def on_message(message):
     if msgrest.startswith("forbidden"):
       msgrest_1 = msgrest.split("forbidden", 1)[1]
       if msgrest_1.startswith(".settings"):
-        msgrest_1 = msgrest_1.split(".settings", 1)[1]
+        try:
+          msgrest_1 = msgrest_1.split(".settings", 1)[1]
+        except:
+          msgrest_1 = ""
         if msgrest_1.startswith(".links"):
-          msgrest_1 = msgrest_1.split()[1]
+          msgrest_1 = msgrest_1.split()
           if msgrest_1 == "0":
             db["forbidden.settings"][0] = True
             await message.channel.send("forbidden links enabled.")
@@ -89,6 +92,11 @@ async def on_message(message):
           elif msgrest_1 == "1":
             db["forbidden.settings"][1] = False
             await message.channel.send("forbidden attachments disabled.")
+        if msgrest_1 == "":
+          response = "Here Are The Forbidden Function Settings\n"
+          response += "\n.links: " + str(db["forbidden.settings"][0])
+          response += "\n.attachments: " + str(db["forbidden.settings"][1])
+          await message.channel.send(response)
       else:
         await vdq_f.forbidden_function(message, client)
     

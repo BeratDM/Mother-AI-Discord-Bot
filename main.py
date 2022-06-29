@@ -21,7 +21,7 @@ if "responding.verydeepquotes" not in db.keys():
   db["responding.verydeepquotes"] = True
 
 if "forbidden.settings" not in db.keys():
-  db["forbidden.settings"] = [True, True]
+  db["forbidden.settings"] = [True, True, True]
 
 def get_quote1():
   response = requests.get("https://zenquotes.io/api/random")
@@ -43,11 +43,8 @@ def get_quote2():
 async def on_ready():
   print("We have logged in as {0.user}".format(client))
   ka.d_client = client
-  #asyncio.run(ka.keep_discord_connection())
   asyncio.create_task(ka.keep_discord_connection())
-  #t = threading.Thread(target=ka.keep_discord_connection, args=())
-  #t.start()
-  #await ka.keep_discord_connection(client)
+  
 
 ####################
   #On Message#
@@ -77,7 +74,7 @@ async def on_message(message):
         except:
           msgrest_1 = ""
         if msgrest_1.startswith(".links"):
-          msgrest_1 = msgrest_1.split()
+          msgrest_1 = msgrest_1.split()[1]
           if msgrest_1 == "0":
             db["forbidden.settings"][0] = True
             await message.channel.send("forbidden links enabled.")
@@ -92,10 +89,20 @@ async def on_message(message):
           elif msgrest_1 == "1":
             db["forbidden.settings"][1] = False
             await message.channel.send("forbidden attachments disabled.")
+        if msgrest_1.startswith(".youtube"):
+          msgrest_1 = msgrest_1.split()[1]
+          if msgrest_1 == "0":
+            db["forbidden.settings"][2] = True
+            await message.channel.send("Youtube links enabled.")
+          elif msgrest_1 == "1":
+            db["forbidden.settings"][2] = False
+            await message.channel.send("Youtube links disabled.")
         if msgrest_1 == "":
           response = "Here Are The Forbidden Function Settings\n"
           response += "\n.links: " + str(db["forbidden.settings"][0])
           response += "\n.attachments: " + str(db["forbidden.settings"][1])
+          response += "\n.youtube: " + str(db["forbidden.settings"][2])
+          response += "\n\n Example usage: Mother.forbidden.settings.attachments 1"
           await message.channel.send(response)
       else:
         await vdq_f.forbidden_function(message, client)

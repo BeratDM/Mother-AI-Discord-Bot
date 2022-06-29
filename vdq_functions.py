@@ -25,6 +25,18 @@ def init_verydeepquotes():
       if vdq[4] == None:
         vdq[4] = ""
 
+  if "forbidden.settings" in db.keys():
+      fsettings = db["forbidden.settings"]
+      if len(fsettings) < 3:
+        while(len(fsettings) < 3):
+          fsettings.append(None)
+      if fsettings[0] == None:
+        fsettings[0] = True
+      if fsettings[1] == None:
+        fsettings[1] = True
+      if fsettings[2] == None:
+        fsettings[2] = True
+
 
 def update_verydeepquotes(nqtext, msg):
 
@@ -91,6 +103,9 @@ async def forbidden_function(msginput, client):
     for message in all_messages:
       if message.author != client.user:
         if message.content.startswith("https://cdn.discordapp.com/attachments/") and db["forbidden.settings"][0]:
+          
+          selected_messages.append(message)
+        elif message.content.startswith("https://www.youtube.com/watch?v=") and db["forbidden.settings"][2]:
           
           selected_messages.append(message)
         elif len(message.attachments) > 0 and db["forbidden.settings"][1]:

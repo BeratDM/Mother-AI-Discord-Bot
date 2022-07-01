@@ -15,6 +15,12 @@ import threading
 
 client = discord.Client()
 
+no_mentions = discord.AllowedMentions(
+            users=False,         # Whether to ping individual user @mentions
+            everyone=False,      # Whether to ping @everyone or @here mentions
+            roles=False,         # Whether to ping role @mentions
+            replied_user=False)
+
 vdq_f.init_verydeepquotes()
 
 if "responding.verydeepquotes" not in db.keys():
@@ -129,11 +135,7 @@ async def on_message(message):
         response = response + " ||Index: {0}||".format(index) + '     "{0}"'.format(vdqtext) + " {1}  - {0}, ".format(vdqauthor_name, vdqattachment) + '{0}'.format(str(vdqdate.year) +  '\n\n')
         index += 1
         
-      await message.channel.send(response, allowed_mentions = discord.AllowedMentions(
-            users=False,         # Whether to ping individual user @mentions
-            everyone=False,      # Whether to ping @everyone or @here mentions
-            roles=False,         # Whether to ping role @mentions
-            replied_user=False))  
+      await message.channel.send(response, allowed_mentions = no_mentions)
       return
 
     if db["responding.verydeepquotes"]:
@@ -184,18 +186,9 @@ async def on_message(message):
         fresponse, fresponse_attachmenturl = vdq_f.update_verydeepquotes(new_vdqtext, msg_obj)
 
         if fresponse_attachmenturl != "":
-         await message.channel.send(fresponse_attachmenturl, allowed_mentions = discord.AllowedMentions(
-           users=False,         # Whether to ping individual user @mentions
-          everyone=False,      # Whether to ping @everyone or @here mentions
-          roles=False,         # Whether to ping role @mentions
-          replied_user=False))
+         await message.channel.send(fresponse_attachmenturl, allowed_mentions = discord.no_mentions)
         
-        await message.channel.send(fresponse,  allowed_mentions = discord.AllowedMentions(
-            users=False,         # Whether to ping individual user @mentions
-            everyone=False,      # Whether to ping @everyone or @here mentions
-            roles=False,         # Whether to ping role @mentions
-            replied_user=False))
-        
+        await message.channel.send(fresponse,  allowed_mentions = no_mentions)
         
         return
   
@@ -208,11 +201,7 @@ async def on_message(message):
               randi = int(wrd)
           if randi > len(vdquotes) - 1:
             response = "I could not find the index you wanted."
-            await message.channel.send(response, allowed_mentions = discord.AllowedMentions(
-            users=False,         # Whether to ping individual user @mentions
-            everyone=False,      # Whether to ping @everyone or @here mentions
-            roles=False,         # Whether to ping role @mentions
-            replied_user=False))
+            await message.channel.send(response, allowed_mentions = no_mentions)
             return 
           vdq = vdquotes[randi]
           vdqtext, vdqauthor_name, vdqdate, vdqattachment = vdq[0], vdq[1], vdq[3], vdq[4]
@@ -223,11 +212,7 @@ async def on_message(message):
           if vdqattachment == "":
             response = vdqattachment 
             
-          await message.channel.send(response, allowed_mentions = discord.AllowedMentions(
-            users=False,         # Whether to ping individual user @mentions
-            everyone=False,      # Whether to ping @everyone or @here mentions
-            roles=False,         # Whether to ping role @mentions
-            replied_user=False))
+          await message.channel.send(response, allowed_mentions = no_mentions)
         return
   
         
@@ -243,11 +228,7 @@ async def on_message(message):
             index = int(index[len(index)-1])
           fresponse = vdq_f.delete_verydeepquotes(index, message.author)
           print(fresponse)
-          await message.channel.send(fresponse, allowed_mentions = discord.AllowedMentions(
-            users=False,         # Whether to ping individual user @mentions
-            everyone=False,      # Whether to ping @everyone or @here mentions
-            roles=False,         # Whether to ping role @mentions
-            replied_user=False))
+          await message.channel.send(fresponse, allowed_mentions = no_mentions)
         return
 
 

@@ -220,13 +220,9 @@ async def on_message(message):
           response = '"{0}"'.format(vdqtext) + " -" + vdqauthor_name + ", " + str(vdqdate.year) + "  ||*Index: {0}*||".format(randi)
           print(response)
 
-          if vdqattachment != "":
-            await message.channel.send(vdqattachment, allowed_mentions = discord.AllowedMentions(
-            users=False,         # Whether to ping individual user @mentions
-            everyone=False,      # Whether to ping @everyone or @here mentions
-            roles=False,         # Whether to ping role @mentions
-            replied_user=False))
-          
+          if vdqattachment == "":
+            response = vdqattachment 
+            
           await message.channel.send(response, allowed_mentions = discord.AllowedMentions(
             users=False,         # Whether to ping individual user @mentions
             everyone=False,      # Whether to ping @everyone or @here mentions

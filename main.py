@@ -97,11 +97,20 @@ async def on_message(message):
           elif msgrest_1 == "1":
             db["forbidden.settings"][2] = False
             await message.channel.send("Youtube links disabled.")
+        if msgrest_1.startswith(".imgur"):
+          msgrest_1 = msgrest_1.split()[1]
+          if msgrest_1 == "0":
+            db["forbidden.settings"][3] = True
+            await message.channel.send("imgur links enabled.")
+          elif msgrest_1 == "1":
+            db["forbidden.settings"][3] = False
+            await message.channel.send("imgur links disabled.")
         if msgrest_1 == "":
           response = "Here Are The Forbidden Function Settings\n"
-          response += "\n.links: " + str(db["forbidden.settings"][0])
-          response += "\n.attachments: " + str(db["forbidden.settings"][1])
-          response += "\n.youtube: " + str(db["forbidden.settings"][2])
+          response += "\nlinks: " + str(db["forbidden.settings"][0])
+          response += "\nattachments: " + str(db["forbidden.settings"][1])
+          response += "\nyoutube: " + str(db["forbidden.settings"][2])
+          response += "\nimgur: " + str(db["forbidden.settings"][3])
           response += "\n\n Example usage: Mother.forbidden.settings.attachments 1"
           await message.channel.send(response)
       else:

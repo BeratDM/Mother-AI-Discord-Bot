@@ -27,8 +27,8 @@ def init_verydeepquotes():
 
   if "forbidden.settings" in db.keys():
       fsettings = db["forbidden.settings"]
-      if len(fsettings) < 3:
-        while(len(fsettings) < 3):
+      if len(fsettings) < 4:
+        while(len(fsettings) < 4):
           fsettings.append(None)
       if fsettings[0] == None:
         fsettings[0] = True
@@ -36,6 +36,8 @@ def init_verydeepquotes():
         fsettings[1] = True
       if fsettings[2] == None:
         fsettings[2] = True
+      if fsettings[3] == None:
+        fsettings[3] = True
 
 
 def update_verydeepquotes(nqtext, msg):
@@ -106,6 +108,9 @@ async def forbidden_function(msginput, client):
           
           selected_messages.append(message)
         elif message.content.startswith("https://www.youtube.com/watch?v=") and db["forbidden.settings"][2]:
+          
+          selected_messages.append(message)
+        elif message.content.startswith("https://i.imgur.com/") and db["forbidden.settings"][3]:
           
           selected_messages.append(message)
         elif len(message.attachments) > 0 and db["forbidden.settings"][1]:

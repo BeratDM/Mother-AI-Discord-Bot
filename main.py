@@ -240,15 +240,12 @@ async def on_message(message):
 
       if r_element.startswith(("özlüsöz ", "vdq ")):
         value =r_element.split()[1] #("özlüsöz ", "vdq ")
-        
         if value.lower() == "true":
           db["responding.verydeepquotes"] = True
           await message.channel.send("Activated. Very Deep Quotes")
         elif value.lower() == "false":
           db["responding.verydeepquotes"] = False
           await message.channel.send("Deactivated. Very Deep Quotes")
-      
-      
       
       return
           

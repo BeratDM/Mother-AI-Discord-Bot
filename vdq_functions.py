@@ -98,6 +98,7 @@ async def forbidden_function(msginput, client):
 
   
   while (len(selected_messages) < 1 and try_count < 15):
+    #get messages
     randd = random_date(start_date, end_date)
     print(randd)
     print("starting the search for a forbidden message. Around: " + str(randd))
@@ -120,7 +121,7 @@ async def forbidden_function(msginput, client):
     print("updated try count to " + str(try_count))
       
     
-  
+  #check messages
   if len(selected_messages) > 0:
     print("found {0} forbidden message".format(len(selected_messages)))
     randi = random.choice(range(len(selected_messages)))

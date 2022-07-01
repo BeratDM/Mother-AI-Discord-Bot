@@ -22,3 +22,7 @@ A general purpose Discord bot which aims to feel like a human when interacting. 
 - "mother.list.vdq" to list all custom quotes
 - "Mother. özlü söz" or "mother. feed me with a deep quote" to get random vdq 
 - etc.
+
+- Magical function: Mother.forbidden<br/>
+  reposts a random media from channel history. *Surprize*
+  

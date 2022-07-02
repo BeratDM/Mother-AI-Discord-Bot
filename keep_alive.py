@@ -8,7 +8,7 @@ from datetime import datetime
 from os import system
 
 app = Flask('')
-d_client = discord.Client()
+#d_client = discord.Client()
 @app.route('/')
 def home():
   return "Hello, I am alive!"
@@ -22,7 +22,7 @@ def keep_alive():
 
 #If you are not on Replit, you probably don't need to use this function
 #This function checks the connection to discord and restarts to dodge the 429 TooManyRequests limit
-async def keep_discord_connection():
+async def keep_discord_connection(d_client):
   await asyncio.sleep(10)
   dc_conn = 0
   dc_conn_last = 1

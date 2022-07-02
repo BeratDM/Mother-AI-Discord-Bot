@@ -12,8 +12,9 @@ import vdq_functions as vdq_f
 import time
 import asyncio
 import threading
+from discord.ui import Button, View
 
-client = discord.Client()
+client = discord.Client(intents=discord.Intents.default())
 
 no_mentions = discord.AllowedMentions(
             users=False,         # Whether to ping individual user @mentions
@@ -43,42 +44,7 @@ def get_quote2():
   text, author = aquote["text"], aquote["author"]
   return(text + " -" + author + "\n")
 
-
-
-@client.event
-async def on_ready():
-  print("We have logged in as {0.user}".format(client))
-  ka.d_client = client
-  asyncio.create_task(ka.keep_discord_connection())
-  
-
-####################
-  #On Message#
-####################
-
-@client.event
-async def on_message(message):
-  if message.author == client.user:
-    return
-
-
-  if message.content.casefold().startswith("mother."):
-
-    print(str(message.guild) + " -- " + str(message.channel))
-    
-    msgrest = message.content.split(".", 1)[1]
-    print(message.author.name + ": " + msgrest)
-    
-    if any(word in message.content.casefold() for word in ["hello", "hi", "hey", "wasup"]):
-      await message.channel.send(random.choice(words.greeting_response1))
-
-    if msgrest.startswith("forbidden"):
-      msgrest_1 = msgrest.split("forbidden", 1)[1]
-      if msgrest_1.startswith(".settings"):
-        try:
-          msgrest_1 = msgrest_1.split(".settings", 1)[1]
-        except:
-          msgrest_1 = ""
+async def forbidden_settings(client, message, msgrest_1):
         if msgrest_1.startswith(".links"):
           msgrest_1 = msgrest_1.split()[1]
           if msgrest_1 == "0":
@@ -112,13 +78,63 @@ async def on_message(message):
             db["forbidden.settings"][3] = False
             await message.channel.send("imgur links disabled.")
         if msgrest_1 == "":
+
           response = "Here Are The Forbidden Function Settings\n"
           response += "\nlinks: " + str(db["forbidden.settings"][0])
           response += "\nattachments: " + str(db["forbidden.settings"][1])
           response += "\nyoutube: " + str(db["forbidden.settings"][2])
           response += "\nimgur: " + str(db["forbidden.settings"][3])
           response += "\n\n Example usage: Mother.forbidden.settings.attachments 1"
+
+          settings_view = View()
+          
+          links_button = Button("Links")
+          if db["forbidden.settings"][0]:
+            links_button.label = "Links: ON"
+            links_button.style = ButtonStyle.green
+          else:
+            links_button.label = "Links: OFF"
+            links_button.style = ButtonStyle.grey
+          settings_view.add_item(links_button)
+
+          
           await message.channel.send(response)
+
+@client.event
+async def on_ready():
+  print("We have logged in as {0.user}".format(client))
+  #ka.d_client = client
+  asyncio.create_task(ka.keep_discord_connection(client))
+  
+
+####################
+  #On Message#
+####################
+
+@client.event
+async def on_message(message):
+  if message.author == client.user:
+    return
+
+
+  if message.content.casefold().startswith("mother."):
+
+    print(str(message.guild) + " -- " + str(message.channel))
+    
+    msgrest = message.content.split(".", 1)[1]
+    print(message.author.name + ": " + msgrest)
+    
+    if any(word in message.content.casefold() for word in ["hello", "hi", "hey", "wasup"]):
+      await message.channel.send(random.choice(words.greeting_response1))
+
+    if msgrest.startswith("forbidden"):
+      msgrest_1 = msgrest.split("forbidden", 1)[1]
+      if msgrest_1.startswith(".settings"):
+        try:
+          msgrest_1 = msgrest_1.split(".settings", 1)[1]
+        except:
+          msgrest_1 = ""
+        await forbidden_settings(client, message, msgrest_1)
       else:
         await vdq_f.forbidden_function(message, client)
     

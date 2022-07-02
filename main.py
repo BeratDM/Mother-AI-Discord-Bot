@@ -12,7 +12,7 @@ import vdq_functions as vdq_f
 import time
 import asyncio
 import threading
-from discord.ui import Button, View
+#from discord.ui import Button, View
 
 client = discord.Client(intents=discord.Intents.default())
 
@@ -86,16 +86,15 @@ async def forbidden_settings(client, message, msgrest_1):
           response += "\nimgur: " + str(db["forbidden.settings"][3])
           response += "\n\n Example usage: Mother.forbidden.settings.attachments 1"
 
-          settings_view = View()
-          
-          links_button = Button("Links")
-          if db["forbidden.settings"][0]:
-            links_button.label = "Links: ON"
-            links_button.style = ButtonStyle.green
-          else:
-            links_button.label = "Links: OFF"
-            links_button.style = ButtonStyle.grey
-          settings_view.add_item(links_button)
+          #settings_view = View()
+          #links_button = Button("Links")
+          #if db["forbidden.settings"][0]:
+          #  links_button.label = "Links: ON"
+          #  links_button.style = ButtonStyle.green
+          #else:
+          #  links_button.label = "Links: OFF"
+          #  links_button.style = ButtonStyle.grey
+          #settings_view.add_item(links_button)
 
           
           await message.channel.send(response)

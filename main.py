@@ -201,7 +201,7 @@ async def on_message(message):
         fresponse, fresponse_attachmenturl = vdq_f.update_verydeepquotes(new_vdqtext, msg_obj)
 
         if fresponse_attachmenturl != "":
-         await message.channel.send(fresponse_attachmenturl, allowed_mentions = discord.no_mentions)
+         await message.channel.send(fresponse_attachmenturl, allowed_mentions = no_mentions)
         
         await message.channel.send(fresponse,  allowed_mentions = no_mentions)
         

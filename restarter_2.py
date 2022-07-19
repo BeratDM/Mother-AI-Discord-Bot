@@ -1,4 +1,4 @@
 from time import sleep
 from os import system
-sleep(10)
+sleep(15)
 system("python main.py")

@@ -76,9 +76,10 @@ def delete_verydeepquotes(index, messager):
     if vdquotes[index][2] == messager.id or messager.id == special.developer_id:
       quote = vdquotes[index][0]
       quote_attachment = vdquotes[index][4]
+      quote_authorname = vdquotes[index][1]
       del vdquotes[index]
       db["verydeepquotes"] = vdquotes
-      return("'{0}' '{1}' successfully deleted".format(quote, quote_attachment))
+      return("'{0}' '{1}' from {2} successfully deleted".format(quote, quote_attachment, quote_authorname))
     else:
       return("failed to authorize")
   else:

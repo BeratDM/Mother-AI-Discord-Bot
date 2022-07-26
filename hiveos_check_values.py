@@ -10,7 +10,7 @@ async def hiveos_check(d_client, msg):
     return
   
   print("hiveos check is valid")
-
+  value_check_counter = 0
   #dynamic settings feature will be here in the future
   eth_min_value = 40.0
   eth_start = "ethash"
@@ -21,14 +21,16 @@ async def hiveos_check(d_client, msg):
     if msgv.startswith(eth_start):
       xvalue = msgv.split(" ")[1] #ethash 47.41 MH/s
       print(xvalue)
+      value_check_counter = value_check_counter + 1
       if float(xvalue) > eth_min_value:
         print("all good")
-        await hiveos_alert(d_client, "eth value is correct")
+        #await hiveos_alert(d_client, "{0} value is correct".format(eth_start))
       else:
         print("failed")
-        await hiveos_alert(d_client, "eth value is NOT correct")
-        
-
+        await hiveos_alert(d_client, "{0} value is NOT correct".format(eth_start))
+  if value_check_counter > 0:
+    await hiveos_alert(d_client, "Unexpected Notification Occurred.")
+  
 async def hiveos_alert(d_client, text1):
   
   #https://discord.com/channels/973611254696542338/1001619777996984433/1001620513229127840

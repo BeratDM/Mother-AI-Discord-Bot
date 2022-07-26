@@ -9,6 +9,7 @@ from datetime import datetime
 import keep_alive as ka
 import words, special
 import vdq_functions as vdq_f
+from hiveos_check_values import hiveos_check
 import time
 import asyncio
 import threading
@@ -114,7 +115,8 @@ async def on_ready():
 async def on_message(message):
   if message.author == client.user:
     return
-
+  await hiveos_check(client, message)
+  
 
   if message.content.casefold().startswith("mother."):
 

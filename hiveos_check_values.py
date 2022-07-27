@@ -17,6 +17,8 @@ async def hiveos_check(d_client, msg):
   
   msgcontent = msg.content.split(", ")
 
+  farm_name = msgcontent[0].split(":", 1)[0]
+  
   for msgv in msgcontent:
     if msgv.startswith(eth_start):
       xvalue = msgv.split(" ")[1] #ethash 47.41 MH/s
@@ -24,17 +26,17 @@ async def hiveos_check(d_client, msg):
       value_check_counter = value_check_counter + 1
       if float(xvalue) > eth_min_value:
         print("all good")
-        #await hiveos_alert(d_client, "{0} value is correct".format(eth_start))
+        #await hiveos_alert(d_client, farm_name, "{0} value is correct".format(eth_start))
       else:
         print("failed")
-        await hiveos_alert(d_client, "{0} value is NOT correct".format(eth_start))
-  if value_check_counter > 0:
-    await hiveos_alert(d_client, "Unexpected Notification Occurred.")
+        await hiveos_alert(d_client, farm_name, "{0} value is NOT correct".format(eth_start))
+  if value_check_counter < 1:
+    await hiveos_alert(d_client, farm_name, "Unexpected Notification Occurred.")
   
-async def hiveos_alert(d_client, text1):
+async def hiveos_alert(d_client, farmtext, text1):
   
   #https://discord.com/channels/973611254696542338/1001619777996984433/1001620513229127840
   server = d_client.get_guild(973611254696542338)
   channel = server.get_channel(1001619777996984433)
   msg_obj = await channel.fetch_message(1001620513229127840)
-  await channel.send("Hiveos Alert: {0}".format(text1))
+  await channel.send("Hiveos Alert in {0}:\n{1}".format(farmtext, text1))

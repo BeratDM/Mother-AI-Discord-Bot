@@ -310,4 +310,7 @@ async def on_message(message):
 
 
 ka.keep_alive()
-client.run(os.environ['TOKEN'])
+try:
+  client.run(os.environ['TOKEN'])
+except:
+  ka.restart_repl(os.getpid())

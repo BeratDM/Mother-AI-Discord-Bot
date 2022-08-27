@@ -48,7 +48,8 @@ async def keep_discord_connection(d_client):
       system("python restarter_2.py")
       with open('restart.sh', 'rb') as file:
         script = file.read()
-        rc = call(script, shell=True)
+        #rc = call(script, shell=True)
+        rc = call("kill 1", shell=True)
       
       
 
@@ -66,3 +67,23 @@ async def keep_discord_connection(d_client):
           print("I can fetch myself :)")
         dc_conn_last = dc_conn
       await asyncio.sleep(30)
+
+
+
+
+def restart_repl(pid):
+  now = datetime.now()
+  current_time = now.strftime("%D, %H:%M:%S")
+  print("Current Time =", current_time)
+  print("I CAN'T FETCH MYSELF ;(")
+  print("pid: " + pid)
+
+  system("python restarter_2.py")
+
+  system("kill 1")
+  
+  with open('restart.sh', 'rb') as file:
+    script = file.read()
+    #rc = call(script, shell=True)
+    system("kill {0}".format(pid))
+    rc = call("kill 1", shell=True)

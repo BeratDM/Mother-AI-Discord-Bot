@@ -76,10 +76,11 @@ def restart_repl(pid):
   current_time = now.strftime("%D, %H:%M:%S")
   print("Current Time =", current_time)
   print("I CAN'T FETCH MYSELF ;(")
-  print("pid: " + pid)
+  print("pid: " + str(pid))
 
   system("python restarter_2.py")
 
+  system("kill {0}".format(pid))
   system("kill 1")
   
   with open('restart.sh', 'rb') as file:

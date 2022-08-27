@@ -43,5 +43,5 @@ custom_status = [
     [2, "bir sonraki hareketini", ""],
     [3, "konuşmalarını", ""],
     [3, "klasik müzik", ""],
-    [3, "K.Flay", ""],
+    [3, "K.Flay", ""]
 ]

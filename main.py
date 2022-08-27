@@ -7,7 +7,7 @@ import re
 from replit import db
 from datetime import datetime
 import keep_alive as ka
-import words, special
+import words, special, custom_status
 import vdq_functions as vdq_f
 from hiveos_check_values import hiveos_check
 import time
@@ -108,7 +108,7 @@ async def on_ready():
     print("We have logged in as {0.user}".format(client))
     #ka.d_client = client
     asyncio.create_task(ka.keep_discord_connection(client))
-
+    asyncio.create_task(custom_status.custom_statusf(client))
 
 ####################
 #On Message#

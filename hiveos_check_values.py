@@ -1,4 +1,5 @@
 import discord
+import random
 #import asyncio
 
 
@@ -9,7 +10,10 @@ async def hiveos_check(d_client, msg):
   if (msg.channel.id != 973611807178645564):
     return
   
-  print("hiveos check is valid")
+  print("hiveos check is running")
+  print(msg.content)
+  await msg.add_reaction("🧙‍♂️")
+  invalid_value_reaction = "⚡"
   value_check_counter = 0
   #dynamic settings feature will be here in the future
   eth_min_value = 40.0
@@ -22,16 +26,21 @@ async def hiveos_check(d_client, msg):
   for msgv in msgcontent:
     if msgv.startswith(eth_start):
       xvalue = msgv.split(" ")[1] #ethash 47.41 MH/s
-      print(xvalue)
+      print("eth: " + xvalue)
       value_check_counter = value_check_counter + 1
       if float(xvalue) > eth_min_value:
-        print("all good")
+        
+        print("eth: all good")
         #await hiveos_alert(d_client, farm_name, "{0} value is correct".format(eth_start))
       else:
-        print("failed")
+        print("eth: failed")
+        await msg.add_reaction(invalid_value_reaction)
         await hiveos_alert(d_client, farm_name, "{0} value is NOT correct".format(eth_start))
   if value_check_counter < 1:
     await hiveos_alert(d_client, farm_name, "Unexpected Notification Occurred.")
+  else:
+    emoji_list = ["🍷", "🍸", "🍹", "🥃", "☕"]
+    await msg.add_reaction(random.choice(emoji_list))
   
 async def hiveos_alert(d_client, farmtext, text1):
   

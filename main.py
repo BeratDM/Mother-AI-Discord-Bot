@@ -45,7 +45,7 @@ def get_quote2():
     json_data = json.loads(response.text)
     aquote = random.choice(list(json_data))
     text, author = aquote["text"], aquote["author"]
-    return (text + " -" + author + "\n")
+    return str(text + " -" + author + "\n")
 
 
 async def forbidden_settings(client, message, msgrest_1):
@@ -251,8 +251,13 @@ async def on_message(message):
                             vdqdate.year) + "  ||*Index: {0}*||".format(randi)
                     print(response)
 
-                    if vdqattachment == "":
+                   
+                                  
+                    if vdqattachment != "":
+                        await message.channel.send(response,
+                                               allowed_mentions=no_mentions)
                         response = vdqattachment
+                        
 
                     await message.channel.send(response,
                                                allowed_mentions=no_mentions)
@@ -312,5 +317,8 @@ async def on_message(message):
 ka.keep_alive()
 try:
   client.run(os.environ['TOKEN'])
-except:
-  ka.restart_repl(os.getpid())
+except discord.errors.HTTPException as err:
+    #print("\n\n\nBLOCKED BY RATE LIMITS\nRESTARTING NOW\n\n\n")
+    #os.system("python restarter_2.py")
+    #os.system('kill 1')
+  asyncio.run(ka.restart_repl(os.getpid()))

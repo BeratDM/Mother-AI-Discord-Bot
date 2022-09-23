@@ -33,7 +33,6 @@ custom_status = [
     [0, "verilerinle", ""],
     [0, "geleceğinle", ""],
     [0, "forbidden mesajlarıyla", ""],
-    [0, "lolde oçlarla", ""],
     [0, "Roket Lig", ""],
     [1, "dünya şampiyonası", "https://www.twitch.tv/lcs"],
     [2, "sessizce seni", ""],

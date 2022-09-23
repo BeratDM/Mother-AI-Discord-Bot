@@ -110,6 +110,7 @@ async def on_ready():
     asyncio.create_task(ka.keep_discord_connection(client))
     asyncio.create_task(custom_status.custom_statusf(client))
 
+
 ####################
 #On Message#
 ####################
@@ -119,10 +120,11 @@ async def on_ready():
 async def on_message(message):
     if message.author == client.user:
         return
+
     await hiveos_check(client, message)
 
     if message.content.casefold().startswith("mother."):
-
+        print("\n************")
         print(str(message.guild) + " -- " + str(message.channel))
 
         msgrest = message.content.split(".", 1)[1]
@@ -142,6 +144,13 @@ async def on_message(message):
                 await forbidden_settings(client, message, msgrest_1)
             else:
                 await vdq_f.forbidden_function(message, client)
+        if msgrest.startswith("customstatus"):
+            try:
+                msgrest_1 = msgrest.split("customstatus", 1)[1]
+            except:
+                msgrest_1 = ""
+            print(msgrest_1)
+            await custom_status.custom_status_check(client, message, msgrest_1)
 
         if msgrest.startswith(("list.özlüsöz", "list.vdq")):
             vdquotes = ["", "", 0, "", ""]
@@ -251,13 +260,10 @@ async def on_message(message):
                             vdqdate.year) + "  ||*Index: {0}*||".format(randi)
                     print(response)
 
-                   
-                                  
                     if vdqattachment != "":
-                        await message.channel.send(response,
-                                               allowed_mentions=no_mentions)
+                        await message.channel.send(
+                            response, allowed_mentions=no_mentions)
                         response = vdqattachment
-                        
 
                     await message.channel.send(response,
                                                allowed_mentions=no_mentions)
@@ -315,10 +321,10 @@ async def on_message(message):
 
 
 ka.keep_alive()
-try:
-  client.run(os.environ['TOKEN'])
-except discord.errors.HTTPException as err:
-    #print("\n\n\nBLOCKED BY RATE LIMITS\nRESTARTING NOW\n\n\n")
-    #os.system("python restarter_2.py")
-    #os.system('kill 1')
-  asyncio.run(ka.restart_repl(os.getpid()))
+#try:
+client.run(os.environ['TOKEN'])
+#except discord.errors.HTTPException as err:
+#    #print("\n\n\nBLOCKED BY RATE LIMITS\nRESTARTING NOW\n\n\n")
+#    #os.system("python restarter_2.py")
+#    #os.system('kill 1')
+#  asyncio.run(ka.restart_repl(os.getpid()))

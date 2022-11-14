@@ -28,7 +28,7 @@ A general purpose Discord bot which aims to feel like a human when interacting. 
 - etc.
 
 - Magical function: Mother.forbidden<br/>
-  - reposts a random media from channel history. *Surprize*
-  - select between options like "youtube", "imgur", message attachments or text messages that includes links with mother.forbidden.settings
-  - no, I won't be adding nsfw stuff lol
+  - Reposts a random media from channel history. *Surprize*
+  - Select between options like "youtube", "imgur", message attachments or text messages that includes links with mother.forbidden.settings
+  - No, I won't be adding nsfw stuff lol
   

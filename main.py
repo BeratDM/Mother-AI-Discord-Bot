@@ -325,8 +325,10 @@ async def on_message(message):
                 except :
                     print("out of index for weather_city")
             index = index + 1
-        weather_info = weather1.get_weather(weather_city)
-        
+        try:
+            weather_info = weather1.get_weather(weather_city)
+        except:
+            return
         response = random.choice(
             words.weather_responses1) + " " + weather_info[0]+ " and weather is "+ weather_info[1].lower() + " in " + weather_city.capitalize() + ". " + random.choice(
                 words.weather_responses2) + " " + random.choice(

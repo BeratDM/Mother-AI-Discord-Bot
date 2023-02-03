@@ -13,6 +13,7 @@ from hiveos_check_values import hiveos_check
 import time
 import asyncio
 import threading
+import weather1
 #from discord.ui import Button, View
 
 client = discord.Client(intents=discord.Intents.default())
@@ -312,13 +313,27 @@ async def on_message(message):
             await message.channel.send(response)
 
     if any(word in message.content for word in words.weather_words):
+        weather_city = "ankara"
+
+        list_of_words = message.content.split()
+        index = 0
+        for w in list_of_words:
+            if w in words.weather_words:
+                try:
+                    weather_city = str(list_of_words[index + 1]) #next_word = list_of_words[list_of_words.index(your_search_word) + 1]
+                    print(weather_city)
+                except :
+                    print("out of index for weather_city")
+            index = index + 1
+        weather_info = weather1.get_weather(weather_city)
+        
         response = random.choice(
-            words.weather_responses1) + " 25 C°. " + random.choice(
+            words.weather_responses1) + " " + weather_info[0]+ " and weather is "+ weather_info[1].lower() + " in " + weather_city.capitalize() + ". " + random.choice(
                 words.weather_responses2) + " " + random.choice(
                     words.weather_responses3)
         await message.channel.send(response)
         return
-
+    
 
 ka.keep_alive()
 #try:

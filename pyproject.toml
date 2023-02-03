@@ -12,6 +12,7 @@ requests = "^2.28.0"
 discord = "^1.7.3"
 Command = "^0.1.0"
 "discord.py" = "^1.7.3"
+bs4 = "^0.0.1"
 
 [tool.poetry.dev-dependencies]
 

@@ -314,28 +314,34 @@ async def on_message(message):
 
     if any(word in message.content for word in words.weather_words):
         weather_city = "ankara"
-
+        response = ""
         list_of_words = message.content.split()
         index = 0
         for w in list_of_words:
-            if w in words.weather_words:
-                try:
-                    weather_city = str(list_of_words[index + 1]) #next_word = list_of_words[list_of_words.index(your_search_word) + 1]
-                    print(weather_city)
-                except :
-                    print("out of index for weather_city")
+            weather_city = str(
+                w
+            )  #next_word = list_of_words[list_of_words.index(your_search_word) + 1]
             index = index + 1
-        try:
-            weather_info = weather1.get_weather(weather_city)
-        except:
-            return
-        response = random.choice(
-            words.weather_responses1) + " " + weather_info[0]+ " and weather is "+ weather_info[1].lower() + " in " + weather_city.capitalize() + ". " + random.choice(
+            if w in words.weather_words:
+                continue
+            try:
+                weather_info = weather1.get_weather(weather_city)
+                print(index)
+                print(weather_city)
+                response += random.choice(
+                    words.weather_responses1) + " " + weather_info[
+                        0] + " and weather is " + weather_info[1].lower(
+                        ) + " in " + weather_city.capitalize() + ". " + "\n"
+            except:
+                pass
+
+        if (response != ""):
+            response += random.choice(
                 words.weather_responses2) + " " + random.choice(
                     words.weather_responses3)
-        await message.channel.send(response)
+            await message.channel.send(response)
         return
-    
+
 
 ka.keep_alive()
 #try:

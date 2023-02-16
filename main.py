@@ -318,10 +318,12 @@ async def on_message(message):
         list_of_words = message.content.split()
         index = 0
         for w in list_of_words:
+            if(index > 25):
+                break
             weather_city = str(
                 w
             )  #next_word = list_of_words[list_of_words.index(your_search_word) + 1]
-            index = index + 1
+            
             if w in words.weather_words:
                 continue
             try:
@@ -334,6 +336,7 @@ async def on_message(message):
                         ) + " in " + weather_city.capitalize() + ". " + "\n"
             except:
                 pass
+            index = index + 1
 
         if (response != ""):
             response += random.choice(

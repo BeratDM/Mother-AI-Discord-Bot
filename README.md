@@ -30,6 +30,6 @@ A general purpose Discord bot which aims to feel like a human when interacting. 
 
 - Magical function: Mother.forbidden<br/>
   - Reposts a random media from channel history. *Surprize*
-  - Select between options like "youtube", "imgur", message attachments or text messages that includes links with mother.forbidden.setting
+  - "mother.forbidden.settings" enables you to select between options like "youtube", "imgur", message attachments or text messages that includes links
   
 - Any sentence that includes a city name and one of the defined weather words will trigger a weather info response

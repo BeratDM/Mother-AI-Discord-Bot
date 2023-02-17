@@ -29,6 +29,7 @@ glad_response1 = [
 ]
 
 custom_status = [
+    # 0:Playing, 1:Streaming, 2:Watching, 3:Listening  
     [0, "kirli mesajlarınla", ""],
     [0, "verilerinle", ""],
     [0, "geleceğinle", ""],

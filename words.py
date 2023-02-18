@@ -45,4 +45,5 @@ custom_status = [
     [3, "düşüncelerini", ""],
     [3, "K.Flay", ""],
     [3, "Saint Motel", ""]
+    [3, "half·alive", ""]
 ]

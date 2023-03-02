@@ -24,7 +24,7 @@ A general purpose Discord bot which aims to feel like a human when interacting. 
 *(most commands are case insensitive, so.. freedom to interact with this bot with caps on if you want to SCREAM)*<br/>
 *(some commands can be used with words around them. You can actually communicate to this bot your own way if you want to)*<br/>
 *(vdq stands for "very deep quotes")*
-- "Mother.newvdq" or "Mother. özlü söz" to add a quote
+- "Mother.newvdq" or "Mother. yaz bunu" to add a quote
 - "Mother. sil 10" or "mother. delete 10", etc. to delete quote at index 10
 - "mother.list.vdq" to list all custom quotes
 - "Mother. özlü söz" or "mother. feed me with a deep quote" to get random vdq 

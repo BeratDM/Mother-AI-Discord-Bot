@@ -11,7 +11,8 @@ A general purpose Discord bot which aims to feel like a human when interacting. 
 
   - Ultimate Ability The Forbidden Command (That all people love to spam)
     - When Called, Looks at the dates of the channels first and last messages
-    - Picks a totally random date around the range until it finds messages that fit the filters you set up(attachments, links, images, youtube videos, and more) 
+    - Picks a totally random date until it finds messages that fit the filters you set up(attachments, links, images, youtube videos, and more)
+    - Posts it to the chat without sharing any clue whatsoever beforehand (This is the part where you get infinitely ashamed or laugh till you can't breathe or ponder about the time in the hourglass that continues to fall without slowing down as we speak)
 - A small possibility to inspire you by
   - Sending quotes from an API (example: Mother. please drop some WISDOM sheesh)
 - Being annoying (or useful) by giving you stylized weather info whenever you mention a word like "weather"

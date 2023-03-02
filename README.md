@@ -8,6 +8,10 @@ A general purpose Discord bot which aims to feel like a human when interacting. 
   - Saving any existing messages from message link (if bot can reach it)
   - Sending messages from saved messages database
   - Deleting messages from saved messages db if you are the quoted user
+
+  - Ultimate Ability The Forbidden Command (That all people love to spam)
+    - When Called, Looks at the dates of the channels first and last messages
+    - Picks a totally random date around the range until it finds messages that fit the filters you set up(attachments, links, images, youtube videos, and more) 
 - A small possibility to inspire you by
   - Sending quotes from an API (example: Mother. please drop some WISDOM sheesh)
 - Being annoying (or useful) by giving you stylized weather info whenever you mention a word like "weather"
@@ -15,8 +19,6 @@ A general purpose Discord bot which aims to feel like a human when interacting. 
   - Weather info from literally every city known to google
   - Can detect multiple cities in your message
 - Keeping track of crypto mining efficiency through hiveos and alert system
-- Forbidden stuff
-  - Fun stuff from your channel's past messages( That all people love to spam)
 
 ### list of some commands:<br/>
 *(most commands are case insensitive, so.. freedom to interact with this bot with caps on if you want to SCREAM)*<br/>
@@ -35,3 +37,5 @@ A general purpose Discord bot which aims to feel like a human when interacting. 
 - Learn more about the Custom Status functionality with the command mother.customstatus (by default it's changing every couple minutes)
 
 - Any sentence that includes a city name and one of the defined weather words will trigger a weather info response
+
+Reach out to me on Discord for feedback and permissions or just talk: DMax#6014

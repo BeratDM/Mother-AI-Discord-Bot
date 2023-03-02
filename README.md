@@ -38,4 +38,4 @@ A general purpose Discord bot which aims to feel like a human when interacting. 
 
 - Any sentence that includes a city name and one of the defined weather words will trigger a weather info response
 
-Reach out to me on Discord for feedback and permissions or just talk: DMax#6014
+Reach out to me on Discord for feedback and permissions or just to talk: DMax#6014

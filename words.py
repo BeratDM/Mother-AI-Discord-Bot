@@ -5,7 +5,7 @@ weather_words = [
 weather_responses1 = [
     "", "Today is an overestimated ", "Today will be an exotic ",
     "Today is going to be a surprising ", "Today is an underestimated ",
-    "Nothing surprising, Today will be ", "Currently it is "
+    "Nothing surprising, Today will be ", "Currently it is ", "Today's the temperature is"
 ]
 
 weather_responses2 = [

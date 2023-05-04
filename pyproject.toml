@@ -6,7 +6,7 @@ authors = ["BeratDM <<>>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-Flask = "^2.1.2"
+Flask = "^2.2.5"
 replit = "^3.2.4"
 requests = "^2.28.0"
 discord = "^1.7.3"

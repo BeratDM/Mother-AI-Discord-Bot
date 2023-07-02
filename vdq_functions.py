@@ -72,7 +72,7 @@ def update_verydeepquotes(nqtext, msg):
             len(db["verydeepquotes"]) - 1)
 
     else:
-        response = '"' + nqtext + '"  -{0}'.format(
+        response = '"' + nqtext + '"  - {0}'.format(
             nqauthor_name) + ", {0}".format(
                 str(msg.created_at.year
                     )) + "\n\n" + "Successful. Index: {0}".format(

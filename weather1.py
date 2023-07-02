@@ -22,6 +22,7 @@ def get_weather(city):
     print(info)
     print(weather+"°C")
     return_list = [str(weather+"°C"), info, time]
+    print(return_list)
     return return_list
  
  

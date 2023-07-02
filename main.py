@@ -257,7 +257,7 @@ async def on_message(message):
                     vdqdate = datetime.strptime(vdqdate,
                                                 '%Y-%m-%d %H:%M:%S.%f')
                     response = '"{0}"'.format(
-                        vdqtext) + " -" + vdqauthor_name + ", " + str(
+                        vdqtext) + " - " + vdqauthor_name + ", " + str(
                             vdqdate.year) + "  ||*Index: {0}*||".format(randi)
                     print(response)
 

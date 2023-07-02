@@ -66,7 +66,7 @@ def update_verydeepquotes(nqtext, msg):
         db["verydeepquotes"] = [newquote]
 
     if nqtext.startswith("http"):
-        response = nqtext + '  \n-{0}'.format(nqauthor_name) + ", {0}".format(
+        response = nqtext + '  \n- {0}'.format(nqauthor_name) + ", {0}".format(
             str(msg.created_at.year)
         ) + "\n\n" + "Successful. Index: {0}".format(
             len(db["verydeepquotes"]) - 1)
